@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREECHAT | LOGIN</title>
+  <style>
+    body{
+      width: auto;
+      height: 100vh;
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    form{
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: center;
+    }
+    form input{
+      padding: 1em;
+      margin: 1em;
+      width: 100%;
+      border: 1px solid tomato;
+      border-radius: .8em;
+    }
+    .btn{
+      cursor: pointer;
+      font-size: large;
+      font-weight: bold;
+      color: whitesmoke;
+      background-color: tomato;
+      transition: all .5s ease-in-out;
+    }
+    .btn:hover{
+      transition: all .5s ease-in-out;
+      background-color: brown;
+    }
+    .title{
+          text-align: center;
+          font-size: 1.5em;
+          font-weight: bold;
+    }
+    .logo1{
+          color: tomato;
+    }
+    .logo3{
+        font-size: smaller;
+        font-weight: normal;
+    }
+    .shoutOut{
+          text-align: center;
+          font-weight: normal;
+          margin-top: 0;
+      }
+  </style>
+</head>
+<body>
+  <h3 class="title"><span class="logo1">FREE</span>CHAT<span class="logo3">cive</span></h3>  
+  <form action="" method="post" id="loginForm">
+    <input type="text" id="username" placeholder="Enter your username">
+    <input type="submit" value="Login" class="btn">
+  </form>
+  <h4 class="shoutOut">Powered by <u>socket.io</u></h4>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let socket = io();
+
+    //selectors
+    let form = document.getElementById('loginForm');
+    let username = document.getElementById('username');
+
+
+    //event listeners
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if(username.value){
+        console.log(username.value);
+        socket.emit('userCreated', { username: username.value}, (response)=>{
+          console.log(response)
+          const { userID,username,destination } = response;
+          window.location.href = `${destination}?userid=${userID}&username=${username}`;
+        });
+      }
+    })
+  </script>
+</body>
+</html>
